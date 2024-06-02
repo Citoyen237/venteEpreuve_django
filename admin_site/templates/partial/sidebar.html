@@ -4,7 +4,7 @@
     <ul class="sidebar-nav " id="sidebar-nav">
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="index.html">
+            <a class="nav-link collapsed active" href="{% url 'dashboard.index'%}">
                 <i class="bi bi-grid"></i>
                 <span>Dashboard</span>
             </a>
@@ -29,13 +29,13 @@
         </li><!-- End Abonements Nav -->
 
         <li class="nav-item">
-            <a class="nav-link " data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
+            <a class="nav-link {% if current_url == '/spandashboard/ecole/' %}collapsed{% endif %}" data-bs-target="#forms-nav" data-bs-toggle="collapse" href="#">
                 <i class="bi bi-journal-text"></i><span>Ecoles</span><i class="bi bi-chevron-down ms-auto"></i>
             </a>
-            <ul id="forms-nav" class="nav-content collapse {% if current_url == current_url %}show{% endif %}" data-bs-parent="#sidebar-nav">
+            <ul id="forms-nav" class="nav-content collapsed" data-bs-parent="#sidebar-nav">
                 <li>
-                    <a href="{% url 'ecole.list' %}" class="{% if current_url == current_url %}active{% endif %}">
-                        <i class="bi bi-circle"></i><span>Ecole</span>
+                    <a href="{% url 'ecole.list' %}" class="{% if current_url == '/dashboard/ecole/' %}active{% endif %}">
+                        <i class="bi bi-circle"></i><span>Ecole{{current_url}}</span>
                     </a>
                 </li>
                 <li>

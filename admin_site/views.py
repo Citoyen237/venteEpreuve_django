@@ -18,7 +18,7 @@ from django.views.generic.edit import UpdateView, DeleteView, CreateView
 def index(request):
    if not request.user.is_authenticated:
       return render(request,'partial/404.html')
-   print(request.user.is_superuser)
+   
    return render(request, 'app.html')
 
 '''manipulation des ecoles'''
