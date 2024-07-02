@@ -1,0 +1,53 @@
+{% extends '../../app.html' %}
+
+{% block title %}
+ajouter une  categorie
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Blog</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item">Blog</li>
+                <li class="breadcrumb-item">Category</li>
+                <li class="breadcrumb-item active">Ajouter une categorie d'article</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                {% if messages %}
+                <ul>
+                    {% for message in messages %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="user">Nom utilisateur : </label>
+                    {{form.user}}
+                    <br>
+                    <label for="name">Libelle de la categorie :</label>
+                    {{form.name}}
+                    {% if form.name.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.name.errors %}
+                            <li class="text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <button class="btn btn-primary form-control mt-2 mb-2">Enregistrer</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

@@ -28,6 +28,18 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+# LOGIN_REDIRECT_URL = 'index' 
+
+AUTH_USER_MODEL = 'auth_app.CustomUser'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
+EMAIL_HOST_USER = 'prodistributionltd237@gmail.com'
+EMAIL_HOST_PASSWORD = 'dovm cgou tqpn yldu'
+DEFAULT_FROM_EMAIL = 'prodistributionltd237@gmail.com'
 
 # Application definition
 
@@ -36,6 +48,7 @@ INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.humanize',
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'blog',
@@ -43,7 +56,11 @@ INSTALLED_APPS = [
     'cours',
     'ecole',
     'contact',
+    'abonnement',
     'auth_app',
+    'front',
+    'panier',
+    # 'tinymce',
 ]
 
 MIDDLEWARE = [
@@ -69,6 +86,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'panier.context_processors.cart_item_count',
+                'blog.context_processors.articles_context_processor',
             ],
         },
     },
@@ -131,12 +150,16 @@ STATIC_URL = 'static/'
 STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
+ 
+'''manipulation des medias'''
+MEDIA_ROOT = os.path.join(BASE_DIR, "images")
 
 '''localisation des images'''
 MEDIA_URL='/images/'
 
-'''manipulation des medias'''
-MEDIA_ROOT = os.path.join(BASE_DIR, "images")
+
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

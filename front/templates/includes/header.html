@@ -1,0 +1,60 @@
+<!-- Navbar Start -->
+{% load static %}
+<nav class="navbar navbar-expand-lg bg-white navbar-light sticky-top p-0 wow fadeIn" data-wow-delay="0.1s">
+    <a href="{% url 'front.index' %}" class="navbar-brand d-flex align-items-center px-4 px-lg-5">
+        <h1 class="m-0 text-primary"><img src="{% static 'front/img/logo1.PNG' %}" alt="" width="29%"></h1>
+    </a>
+    
+    <button type="button" class="navbar-toggler me-4" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarCollapse">
+        <div class="navbar-nav ms-auto p-4 p-lg-0">
+            <a href="{% url 'front.index' %}" class="nav-item nav-link  
+            {% if current_url == '/' %}
+                active
+            {% endif %}
+            ">Accueil</a>
+            <a href="{% url 'abonnement.index' %}" class="nav-item nav-link
+             {% if current_url == '/abonnement/' %}
+                active
+            {% endif %}">Abonnements</a>
+            <a href="{% url 'index.ecole' %}" class="nav-item nav-link">
+                Epreuves</a>
+            <a href="{% url 'cours' %}" class="nav-item nav-link
+            {% if current_url == '/cours/' %}
+                active
+            {% endif %}">Cours</a>
+            <a href="{% url 'apprentissage' %}" class="nav-item nav-link
+             {% if current_url == '/cours/apprentissage/' %}
+                active
+            {% endif %}
+            ">Aprentissage</a>
+            <a href="{% url 'articles' %}" class="nav-item nav-link
+            {% if current_url == '/blog/' %}
+                active
+            {% endif %}
+            ">Blog</a>
+            <!-- <a href="contact.html" class="nav-item nav-link">Contact</a> -->
+            <a href="{% url 'cart' %}" class="nav-item nav-link">
+                {{ cart_item_count }}<i class="fa fa-shopping-cart text-warning"></i>
+            </a>
+
+        </div>
+        <!-- Vos liens de navigation ici -->
+        {% if user.is_authenticated %}
+        <!-- <span>Bonjour, {{ user.last_name}}!</span> -->
+        <a href="{% url 'auth.logout' %}" class="text-dark">
+            <i class="fa fa-user  text-center" style="font-size:25px"></i>
+            <p>Se déconnecter</p>
+        </a>
+        {% else %}
+        <a href="{% url 'auth.login' %}" class="text-dark">
+            <i class="fa fa-user  text-center" style="font-size:25px"></i>
+            <p>S'identifier</p>
+        </a>
+        {% endif %}
+        
+    </div>
+</nav>
+<!-- Navbar End -->

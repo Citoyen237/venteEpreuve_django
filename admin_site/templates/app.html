@@ -13,10 +13,10 @@
     </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-
+  {{ form.media }}
   <!-- Favicons -->
-  <link href="{% static 'admin/img/favicon.png'%}" rel="icon">
-  <link href="{% static 'admin/img/apple-touch-icon.png'%}" rel="apple-touch-icon">
+  <link href="{% static 'front/img/logo1.PNG'%}" rel="icon">
+  <link href="{% static 'front/img/logo1.PNG'%}" rel="apple-touch-icon">
 
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -40,12 +40,14 @@
 <body>
     {% include 'partial/navbar.html' %}
 
-    {% include 'partial/sidebar.html' with current_url=current_url%}
+    {% include 'partial/sidebar.html' with current_url=current_url urls=urls urlsA=urlsA  urlsB=urlsB urlsC=urlsC%}
 
-    {% include 'partial/footer.html' %}
+   
     {% block content %}
     
      {% endblock  %}  
+  
+    <!-- {% include 'partial/footer.html' %} -->
  <!-- Vendor JS Files -->
  <script src="{% static 'admin/vendor/apexcharts/apexcharts.min.js' %}"></script>
  <script src="{% static 'admin/vendor/bootstrap/js/bootstrap.bundle.min.js'%}"></script>

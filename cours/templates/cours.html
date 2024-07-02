@@ -1,0 +1,35 @@
+{% extends 'appf.html' %}
+
+{% block 'title' %}
+Cours
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<!-- Service Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Epreuves</p>
+            <h1>
+                Les Cours Les Plus Populaires!
+            </h1>
+        </div>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            {% for cour in cours %}
+            <div class="col">
+                <div class="card h-100">
+                    <img src="{{cour.image.url}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">{{cour.name}}</h5>
+                        <p class="card-text">{{cour.description|truncatewords:10}}</p>
+                        <a href="{% url 'download_file' cour.id %}" class="text-center"><i class="fas fa-download" style="font-size:30px"></i>
+                            Telecharger</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div 
+{% endblock%} 

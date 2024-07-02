@@ -27,9 +27,16 @@
           <div class="card">
             <div class="card-body">
               <h5 class="card-title">
-                <button type='submit' name='modifier' class=' btn btn-primary'>Ajouter une ecole</button>
-
+                <a href="{% url 'ecole.create' %}" class='btn btn-primary'>Ajouter une ecole</a>
               </h5>
+              {% if messages %}
+              {% for message in messages %}
+              <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ message }}!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+              </div>
+              {% endfor %}
+              {% endif %}
               <!-- Table with stripped rows -->
               <table class="table datatable">
                 <thead>
@@ -49,10 +56,10 @@
                     <td>{{school.city}}</td>
                     <td>{{school.slug}}</td>
                     <td class="text-center"> 
-                        <button type='submit' class='btn btn-info'  name='suivis' >info</button>
-                        <button type='submit' name='modifier' class=' btn btn-primary'><i class='bi bi-pencil-square'></i></button>
-                        <button type='submit'  class=' btn btn-danger' name='supprimer'><i class='bi bi-trash-fill'></i></button>
-                    </td>  
+                        <a href="{% url 'ecole.update' school.pk %}"  name='modifier' class=' btn btn-primary'><i class='bi bi-pencil-square'></i></a href="">
+                        <a href="{% url 'ecole.delete' school.pk %}"   class=' btn btn-danger' name='supprimer'><i class='bi bi-trash-fill'></i></a href="">
+                    </td>
+                  </tr>
                   {% empty %}
                       <tr>
                         <td colspan="3" class="text-center">
@@ -62,6 +69,7 @@
                         </td>
                       </tr>
                   {% endfor %}
+                    </table>
               <!-- End Table with stripped rows -->
             </div>
           </div>

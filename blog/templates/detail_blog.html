@@ -1,0 +1,102 @@
+{% extends 'appf.html' %}
+{% block 'title' %}
+detail
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Blog</p>
+            <h1>
+                {{article.titre}}
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card mb-3">
+                <img src="{{article.image.url}}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-title">{{article.titre}}</h5>
+                    <p class="card-text">{{article.description}}</p>
+                </div>
+                <div class="card-footer text-primary">
+                    <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+                        <!-- Checkbox -->
+                        <p>
+                            Auteur {{article.user}}
+                        </p>
+                        Publié il y’ à {{article.created_at|timesince}}
+                        <a href="{% url 'download_article' article.id %}" class="text-center"><i class="fas fa-download" style="font-size:30px"></i>
+                            Telecharger</a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card  bg-light mb-2">
+
+                <div class="card-body">
+                    <form action="" method="get">
+                        <div class="input-group mb-3">
+                            <input placeholder="rechercher article" type="text"
+                                class="justify-content-center form-control" aria-label="Example text with button addon"
+                                aria-describedby="button-addon1">
+                            <button class="btn btn-primary" type="button" id="button-addon1"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card bg-light mb-2">
+
+                <div class="card-body">
+                    <h4 class="card-title">Categories</h4>
+                    <hr>
+
+                    {% for categorie in categories %}
+                    <p class="text-primary">
+                        <a href="{% url 'categorie.article' categorie.id %}">
+                            {{categorie.name}} ({{categorie.num_articles}})
+                        </a>
+                    </p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <div class="card bg-light mb-2">
+                <div class="card-body">
+                    <h4 class="card-title">Articles récents</h4>
+                    <hr>
+
+                    {% for article in articles %}
+                    <div class="card mb-3" style="max-width: 700px;">
+                        <div class="row g-0">
+                            <div class="col-md-4 ml-1">
+                                <a href="{% url 'article.detail' article.id %}"><img src="{{article.image.url}}"
+                                        class="img-fluid" alt="..."></a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h6><a href="{% url 'article.detail' article.id %}">{{article.titre}}</a></h6>
+                                    <p class="card-text">{{article.description|truncatewords:5}}</p>
+                                    <p class="card-text"><small class="text-body-secondary">Publié il y’ à
+                                            {{article.created_at|timesince}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,78 @@
+// See https://aka.ms/new-console-template for more information
+using System.Runtime.InteropServices;
+
+namespace controlecontinue
+{
+
+    public class Programm
+    {
+        static void Main()
+        {
+            string item;
+            bool end = false;
+
+            do
+            {
+                Console.WriteLine("\na. lister les codes couleurs");
+                Console.WriteLine("b. identifier un code couleur");
+                Console.WriteLine("c.  calculer la valeur de la resistance");
+                Console.WriteLine("d.quitter \n");
+                Console.WriteLine("choisir une option \n");
+                item = Console.ReadLine();
+                switch (item)
+                {
+                    case "a":
+                        Console.WriteLine("Liste des couleurs");
+                        Liste();
+                        break;
+                    case "b":
+                        Console.WriteLine("b");
+                        break;
+                    case "c":
+                        Console.WriteLine("c");
+                        break;
+                    case "d":
+                        end = true;
+                        Console.WriteLine("A plus");
+                        break;
+                    default:
+                        Console.WriteLine("choix non disponible \n");
+                        break;
+                }
+            } while (end == false);
+        }
+
+        static void Liste()
+        {
+            string[] colors = { "noir", "marron", "rouge", "orange", "jaune", "vert", "bleu", "violet", "gris", "blanc" };
+            for (int i = 0; i <= 10; i++)
+            {
+                Console.WriteLine("Nom couleur : " + colors[i]);
+                Console.WriteLine("Chiffre indicatif : " + i +"\n");
+            }
+        }
+
+        static void findColor(){
+           string[] colors={"noir","marron", "rouge", "orange", "jaune", "vert", "bleu","violet", "gris", "blanc"} ;
+           string colorName;
+           Console.WriteLine("entrer une couleur");
+           colorName = Console.ReadLine();
+           int exist=0;
+           int indicateur  = 0;
+           for (int i = 0; i <= 10; i++)
+           {
+               if(colors[i] == colorName.ToLower()){
+                 exist = 1;
+                 indicateur = i;
+               }
+           }
+           
+           if(exist==1){
+                Console.WriteLine("Nom couleur : " + colors[indicateur]);
+                Console.WriteLine("Chiffre indicatif : " + indicateur +"\n");
+           }else{
+                Console.WriteLine("La couleur n'existe pas");
+           }
+        }
+    }
+}

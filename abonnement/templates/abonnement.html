@@ -1,0 +1,61 @@
+{% extends 'appf.html' %}
+
+
+{% block 'title' %}
+abonnement
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load humanize %}
+<!-- Page Header Start -->
+<div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5">
+        <h1 class="display-3 text-white mb-3 animated slideInDown">Abonnements</h1>
+        <nav aria-label="breadcrumb animated slideInDown">
+            <ol class="breadcrumb text-uppercase mb-0">
+                <li class="breadcrumb-item"><a class="{% url 'front.index' %}" href="#">Accueil</a></li>
+                <li class="breadcrumb-item text-primary active" aria-current="page">Abonnements</li>
+            </ol>
+        </nav>
+    </div>
+</div>
+<!-- Page Header End -->
+<!-- Service Start -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Abonnements</p>
+            <h1>Choisissez un abonnement</h1>
+        </div>
+        {% if messages %}
+
+        {% for message in messages %}
+
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ message }}!
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+        {% endif %}
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for pack in packs %}
+            <div class="col">
+                <div class="card h-100">
+                    <a href="{% url 'abonnement.detail' pack.id %}"><img src="{{ pack.image.url}}" class="card-img-top" alt="..."></a> 
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'abonnement.detail' pack.id %}" class="card-title">{{pack.title }} </a> </h5>
+                        <p class="card-text"><strike> {{pack.oldPrix|intcomma}}</strike>FCFA 
+                            <a href="{% url 'abonnement.detail' pack.id %}">{{pack.prix|intcomma}}FCFA</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+<!-- Service End -->
+{% endblock %}

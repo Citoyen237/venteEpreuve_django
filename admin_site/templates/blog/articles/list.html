@@ -1,0 +1,104 @@
+{% extends '../../app.html' %}
+
+{% block title %}
+    liste article blog
+{% endblock  %}
+
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Blog</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+          <li class="breadcrumb-item"><a href="#">Blog</a></li>
+          <li class="breadcrumb-item">Articles</li>
+          <li class="breadcrumb-item active">liste des articles</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+      <div class="row">
+        <div class="col-lg-12">
+
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">
+                <a href="{% url 'article.create' %}" class=' btn btn-primary'>Ajouter un article</a>
+
+              </h5>
+              {% if messages %}
+                  {% for message in messages %}
+                  <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    {{ message }}!
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                  </div>
+                  {% endfor %}
+              {% endif %}
+              <!-- Table with stripped rows -->
+              <table class="table datatable">
+                <thead>
+                  <tr>
+                    <th>Titre</th>
+                    <th>Description</th>
+                    <th>Categorie</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  
+                  {% for item in articles%}
+                    
+                  <tr>
+                    <td>{{item.titre}}</td>
+                    <td>{{item.description}}</td>
+                    <td>{{item.category}}</td>
+                    <td class="text-center"> 
+                      <a href="{% url 'article.delete' item.pk %}"  class='btn btn-danger'><i class='bi bi-trash-fill'></i></a>
+
+                       <a href="{% url 'article.update' item.pk %}"  class=' btn btn-primary'><i class='bi bi-pencil-square'></i></a>
+  
+                    </td>  
+                  </tr>
+                  {% empty %}
+                      <tr>
+                        <td colspan="3" class="text-center">
+                            <img src="{% static 'nodata.png'%}" alt="" height="100px">
+                            <br>
+                           <span>Acune article n'a ete trouver</span> 
+                        </td>
+                      </tr>
+                  {% endfor %}
+                    </table>
+                    <div class="pagination mt-4">
+                        <span class="step-links">
+                            {% if page_obj.has_previous %}
+                                <a href="?page=1">&laquo; first</a>
+                                <a href="?page={{ page_obj.previous_page_number }}">precedent</a>
+                            {% endif %}
+                    
+                            <span class="current">
+                                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+                            </span>
+                    
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}">suivant</a>
+                                <a href="?page={{ page_obj.paginator.num_pages }}">derniere &raquo;</a>
+                            {% endif %}
+                        </span>
+                    </div>
+              <!-- End Table with stripped rows -->
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main><!-- End #main -->
+
+{% endblock  %}
+    

@@ -1,0 +1,91 @@
+{% extends 'appf.html' %}
+
+{% block 'title' %}
+ login
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+<!-- Feature Start -->
+<div class="container  my-5 px-lg-0">
+    <div class="container px-lg-0">
+        <div class="row g-0 mx-lg-0">
+            <div class="col-lg-6 pe-lg-0 wow fadeIn" data-wow-delay="0.5s" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="position-absolute img-fluid w-100 h-100" src="{% static 'front/img/draw1.jpg'%}"
+                        style="object-fit: cover;" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 ">
+                <div class="mb-2">
+                    <div class="card-body">
+                        <h1 class="text-center">Se connecter</h1>
+                        {% if messages %}
+
+                        {% for message in messages %}
+
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            {{ message }}!
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                        {% if form.non_field_errors %}
+                   
+                        
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            {{ form.non_field_errors }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                             
+                       {% endif %}
+                        <form action="" method="post">
+                            {% csrf_token %}
+                            <div class="input mb-3">
+                                <h6 for="email">EMAIL</h6>
+                                {{form.email}}
+                            </div>
+                            <div class="input mb-3">
+                                <h6 for="email">MOT DE PASSE</h6>
+                                {{form.password}}
+                                <input type="checkbox" onclick="togglePasswordVisibility()"> Afficher le mot de passe
+
+                            </div>
+                            <div class="input mb-3">
+                                <button class="btn btn-primary form-control text-dark">Connexion</button>
+                            </div>
+                            <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+                                <!-- Checkbox -->
+                                <div class="form-check mb-0">
+                                    <input class="form-check-input me-2" type="checkbox" value="" id="form2Example3" />
+                                    <label class="form-check-label" for="form2Example3">
+                                        Se souvenir de moi
+                                    </label>
+                                </div>
+                                <a href="{% url 'auth.forgetPass' %}" class="">Mot de passe oublie ?</a>
+                            </div>
+                            <br>
+                            <div class="input mb-3">
+                                <p class="mt-2 text-center">Vous n'avez pas de compte? <a
+                                        href="{% url 'auth.register' %}">Creer le compte</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    function togglePasswordVisibility() {
+      var passwordInput = document.querySelector('input[name="password"]');
+      if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+      } else {
+        passwordInput.type = "password";
+      }
+    }
+    </script>
+<!-- Feature End -->
+{% endblock %}

@@ -1,0 +1,111 @@
+{% extends 'appf.html' %}
+
+{% block 'title' %}
+Apprentissage
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="d-flex flex-column">
+                    <img class="img-fluid rounded w-75 align-self-end" src="{% static 'front/img/learning_img.PNG' %}" alt="">
+                </div>
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <h1 class="mb-4">
+                    QUELLE COMPETENCE?
+                </h1>
+                <p>au-delà des connaissances livresques n’oublier pas d’apprendre une compétence que tu pourras
+                    monétiser plus tard pour avoir des revenus et pourquoi pas faire un second métier </p>
+            </div>
+
+        </div>
+        <div class="row g-5 mt-1">
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.5s">
+                <h1 class="mb-4">
+                    DÉVELOPPEMENT WEB, MOBILE,PROGRAMMATION OU JUSTE PROTOCOLE RÉSEAU ?
+                </h1>
+                <p>rend toi sur ses sites pour suivre des cours dans le but d’avoir dans un premier temps des bases
+                    solides
+                    par la suite fait tes recherches et surtout ne doute pas a mettre des fonds si tu juges
+                    important la
+                    CONNAISSANCE délivré et exerce toi en permanence pour être au TOP!</p>
+                <a class="btn btn-primary rounded-pill py-3 px-5 mt-3" href="">S'abonner</a>
+            </div>
+            <div class="col-lg-6 wow fadeIn" data-wow-delay="0.1s">
+                <div class="d-flex flex-column">
+                    <img class="img-fluid rounded w-75 align-self-end" src="{% static 'front/img/draw1.jpg'%}" alt="">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- About End -->
+<!-- Appointment Start -->
+<div class="container-xxl py-5">
+    <div class="container bg-light rounded">
+        <div class="row g-5">
+            <div class="col-md-12 text-center">
+                <p>Rends-toi sur des sites tels que <b>Coursera</b>, <b>OpenClassroom</b>, il en existe des
+                    centaines mais celles-ci sont gratuites.
+
+                    Pour suivre des cours en fonction de tes préférences et petit anecdote Si tu veux juste un
+                    document prouvant que tu as suivi tel ou tel cours, tu cesses d'apprendre et tu recherches
+                    uniquement le papier, tout comme à l'université où l'on obtient un diplôme sans forcément avoir
+                    acquis les compétences nécessaires. Ne tombe pas dans le piège du diplôme !</p>
+
+                <h6><a href="" class="btn btn-warning mb-3">Je m'abonne maintenant</a></h6>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Blog</p>
+            <h1>Nos actualités</h1>
+        </div>
+        {% comment %} <div class="row g-4"> {% endcomment %}
+            <div class="row row-cols-1 row-cols-md-4 g-4">
+                {% for article in articles %}
+
+                <div class="col">
+                    <div class="card h-100 wow fadeInUp" data-wow-delay="0.1s">
+                        <img src="{{ article.image.url }}" class="card-img-top" alt="...">
+                        <div class="card-body">
+                            <h5 class="card-title">{{article.titre}}</h5>
+                            <p class="card-text">{{article.description|truncatewords:10}}</p>
+                            <p class="card-text">Publié il y’ à {{article.created_at|timesince}}</p>
+                        </div>
+                        <div class="card-footer bg-light">
+                            <a href="{% url 'article.detail' article.id %}" class="text-center">
+                               <h6>Lire la suite</h6> </a>
+                        </div>
+                    </div>
+                </div>
+                {% comment %} <div class="col-lg-3 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="team-item position-relative rounded overflow-hidden">
+                        <div class="overflow-hidden">
+                            <img class="img-fluid" src="{{ article.image.url }}" alt="">
+                        </div>
+                        <div class="team-text bg-light text-center p-4">
+                            <h5>{{article.titre}}</h5>
+                            <p class="">Lorem ipsum dolor sit amet consectetur </p>
+                            <div class="team-social text-center">
+                                <a class="btn btn-warning" href="{% url 'ale.detail' %}">Lire la suite</a>
+                            </div>
+                        </div>
+                    </div>
+                </div> {% endcomment %}
+                {% empty %}
+                      
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock%}

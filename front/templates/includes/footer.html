@@ -1,0 +1,51 @@
+    <!-- Footer Start -->
+    {% load static %}
+     <!-- Back to Top -->
+     <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+        class="bi bi-arrow-up"></i></a>
+    <div class="container-fluid bg-dark text-light footer mt-5 pt-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <img class="text-light" src="{% static 'front/img/logo.PNG'%}" alt="" width="60%" height="30%">
+                    <p class="mb-2">parce que toi aussi tu mérites d’atteindre tes objectifs nous  mettons à ta disposition Tout le nécessaire pour apprendre efficacement et Intergre un cursus Académique D’ÉLITE grâce a notre SUIVI! ainsi être la voie par excellence!!</p>      
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Dernières actualités</h5>
+                    {% for item in articless %}
+                    <a class="btn btn-link" href="{%url 'article.detail' item.id%}">{{item.titre}}</a>
+                    {% endfor %}
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Contact</h5>
+                    <h5 class="text-light mb-2"><a href="{% url 'front.contact' %}"><u>Laissez un message ?</u></a></h5>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>123 Street, New York, USA</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+012 345 67890</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h5 class="text-light mb-4">Suivez-nous !</h5>
+                    <div class="d-flex pt-2">
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i
+                                class="fab fa-youtube"></i></a>
+                        <a class="btn btn-outline-light btn-social rounded-circle" href=""><i
+                                class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="copyright">
+                <div class="row">
+                    <div class="col-md-12 text-center text-md-start mb-3 mb-md-0">
+                        <center>Copyright © 2024 elitecorp.org</center>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->

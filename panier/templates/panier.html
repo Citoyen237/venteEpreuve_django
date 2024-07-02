@@ -1,0 +1,81 @@
+{% extends 'appf.html' %}
+
+
+{% block 'title' %}
+panier
+{% endblock %}
+
+
+{% block content %}
+{% load static %}
+{% load humanize %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Panier</p>
+            <h1>
+                Abonnements selectionnes!
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="row">
+                {% if cart.items.count != 0 %}
+                {% for item in cart.items.all %}
+                <div class="card mb-3" style="max-width: 700px;">
+                    <div class="row g-0">
+                        <div class="col-md-4 ml-1">
+                            <img src="{{item.product.image.url}}" class="img-fluid" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h6>{{item.product.title}}</h6>
+                                <p class="card-text">Prix:&nbsp;{{item.product.prix|intcomma}}FCFA &nbsp; <a class="btn btn-danger" href="{% url 'delete_item' item.id  %}"><i class="fas fa-trash"></i></a></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+                {%else%}
+                <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                    Votre panier est vide
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-5">
+            {% if cart.items.count != 0 %}
+            <div class="card bg-light mb-2">
+                <div class="card-body">
+                    <h4 class="card-title">Valider la commande</h4>
+                    <hr>
+                    <form action="" method="get">
+                        <div class="input mb-3">
+                            <a class=""><img src="{%static 'front/img/mtn.jpg'%}" alt="Profile" class="mr-2" style="height:3%;width:30%"></a>
+                            <a class=""><img src="{%static 'front/img/orange.png'%}" alt="Profile" class="p-2 m-2" style="height:%;width:21%"></a>
+
+                        </div>
+                        <hr>
+                        <div class="d-flex justify-content-between align-items-center mb-2 mt-2">
+                            <!-- Checkbox -->
+                            <div class="form-check mb-0">
+                                <h6>Total</h6>
+                            </div>
+                            <a class="text-dark">{{ cart_total_price|intcomma}}FCFA</a>
+                        </div>
+                        <div class="input mb-3">
+                            {% comment %} <a href="{% url 'checkout' %}" class="btn btn-primary form-control text-dark">Confirmer</a> {% endcomment %}
+                        </div>
+                </div>
+
+                </form>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock%}

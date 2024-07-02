@@ -1,0 +1,99 @@
+{% extends 'appf.html' %}
+{% block 'title' %}
+categories
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Blog</p>
+            <h1>
+               Actualites de categories
+            </h1>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-7">
+            <div class="row">
+                
+                {% for articles in articless %}        
+                <div class="card col-md-5 m-1">
+                    <a href="{% url 'article.detail' articles.id %}">
+                        <img src="{{articles.image.url}}" class="card-img-top" alt="...">
+                    </a> 
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'article.detail' articles.id %}">{{articles.titre}}</a></h5>
+                        <p class="card-text">{{articles.description|truncatewords:10}}</p>
+                        <p class="card-text"><small class="text-body-secondary">{{articles.created_at|timesince}}</small></p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card  bg-light mb-2">
+
+                <div class="card-body">
+                    <form action="" method="get">
+                        <div class="input-group mb-3">
+                            <input placeholder="rechercher article" type="text"
+                                class="justify-content-center form-control" aria-label="Example text with button addon"
+                                aria-describedby="button-addon1">
+                            <button class="btn btn-primary" type="button" id="button-addon1"><i
+                                    class="fa fa-search"></i></button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card bg-light mb-2">
+
+                <div class="card-body">
+                    <h4 class="card-title">Categories</h4>
+                    <hr>
+
+                    {% for categorie in categories %}
+                    <p class="text-primary">
+                        <a href="{% url 'categorie.article' categorie.id %}">
+                            {{categorie.name}} ({{categorie.num_articles}})
+                        </a>
+                    </p>
+                    {% endfor %}
+
+                </div>
+            </div>
+
+            <div class="card bg-light mb-2">
+                <div class="card-body">
+                    <h4 class="card-title">Articles récents</h4>
+                    <hr>
+
+                    {% for article in articles %}
+                    <div class="card mb-3" style="max-width: 700px;">
+                        <div class="row g-0">
+                            <div class="col-md-4 ml-1">
+                                <a href="{% url 'article.detail' article.id %}"><img src="{{article.image.url}}"
+                                        class="img-fluid" alt="..."></a>
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h6><a href="{% url 'article.detail' article.id %}">{{article.titre}}</a></h6>
+                                    <p class="card-text">{{article.description|truncatewords:5}}</p>
+                                    <p class="card-text"><small class="text-body-secondary">Publié il y’ à
+                                            {{article.created_at|timesince}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
