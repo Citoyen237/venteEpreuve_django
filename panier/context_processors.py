@@ -1,4 +1,5 @@
-from .models import Cart, CartItem
+from .models import Cart, CartItem, Order, OrderItem
+from django.contrib.auth.decorators import login_required
 
 def cart_item_count(request):
     if request.user.is_authenticated:
@@ -14,3 +15,4 @@ def cart_item_count(request):
         total_price = 0
     return {'cart_item_count': item_count,
             'cart_total_price': total_price,}
+

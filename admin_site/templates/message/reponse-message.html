@@ -1,0 +1,48 @@
+{% extends '../app.html' %}
+
+{% block title %}
+repondre au messages
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<main id="main" class="main">
+
+    <div class="pagetitle">
+        <h1>Blog</h1>
+        <nav>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="#">Dashboard</a></li>
+                <li class="breadcrumb-item">Messages</li>
+                <li class="breadcrumb-item active">repondres</li>
+            </ol>
+        </nav>
+    </div><!-- End Page Title -->
+
+    <section class="section">
+        <div class="row">
+            <div class="col-lg-12">
+                <form action="" method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <label for="user">Email destinateur : </label>
+                   
+                    <input type="email" readonly class="form-control" value="{{message.email}}">
+                    <label for="user">Message: </label>
+                    <textarea name="" id="" rows="3" readonly  class="form-control">{{message.Message}}</textarea>
+                    {% if form.response.errors %}
+                    <ul class="errorlist">
+                        {% for error in form.response.errors %}
+                            <li class="text-danger">{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                    <br>
+                    <label for="name">Votre reponse :</label>
+                    {{form.response}}
+                    <button class="btn btn-primary form-control mt-2 mb-2">Envoyer</button>
+                </form>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

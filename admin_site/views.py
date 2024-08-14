@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render,redirect,get_object_or_404
 from django.contrib.auth import authenticate
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.generic import ListView
@@ -18,6 +18,10 @@ from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from panier.models import *
 from django.views.generic.edit import UpdateView, DeleteView, CreateView
+from ecole.utils import get_expired_products
+from .form import ReponseForm
+from django.core.mail import send_mail
+
 
 # from django.contrib.auth.decorators import login_required
 def no_access(request):
@@ -48,11 +52,13 @@ def indexAdmin(request):
       return render(request,'partial/404.html')
    
    '''recuperer l'url'''
+   # expired_products = get_expired_products()
    orders=Order.objects.all()
    current_url = request.get_full_path()
    context = {
         'current_url': current_url,
         'orders':orders,
+      #   'expired_products':expired_products
     }
    return render(request, 'indexAdmin.html',context)
 # class DashboardList(ListView, LoginRequiredMixin, SuperuserRequiredMixin):
@@ -586,3 +592,46 @@ class DeleteMessage(DeleteView,LoginRequiredMixin, SuperuserRequiredMixin):
       response = super().delete(request, *args, **kwargs)
       messages.success(self.request, 'La message a été supprimé avec succès.')
       return response
+   
+def mark_message_as_read(request, message_id):
+    message = get_object_or_404(Message, id=message_id)
+    message.is_read = True
+    message.save()
+    return redirect('message.list')
+
+def message_reponse(request, message_id):
+   message=get_object_or_404(Message, id=message_id)
+   message.is_read = True
+   message.save()
+   current_url = request.get_full_path()
+   if request.method == 'POST':
+      form = ReponseForm(request.POST,instance=message)
+      if form.is_valid():
+         response = form.cleaned_data['response']
+         form.save()
+         messages.success(request, 'Votre reponse a ete envoyer succès.')
+         send_mail(
+                'Réponse à votre message',
+                f'Vous: {message.Message}\n\nelitecorp.org: {response}',  
+                settings.DEFAULT_FROM_EMAIL,# From email
+                [message.email],  # To email
+                fail_silently=False,
+            )
+         return redirect('message.list')   
+      else :
+         context ={
+         'current_url':current_url,
+         'message':message,
+         'form':form,
+          }
+         for field in form.errors:
+            print(field)
+         return render(request, 'message/reponse-message.html', context)
+   else:
+      form = ReponseForm()
+      context ={
+            'current_url':current_url,
+            'message':message,
+            'form':form,
+         }
+      return render(request, 'message/reponse-message.html', context)

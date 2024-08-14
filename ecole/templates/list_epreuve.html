@@ -1,0 +1,217 @@
+{% extends 'appf.html' %}
+
+{% block 'title' %}
+epreuves
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<style>
+    /* styles.css */
+    .tree ul {
+        list-style-type: none;
+    }
+
+    .tree ul,
+    .tree li {
+        margin: 0;
+        padding: 0;
+    }
+
+    .tree .caret {
+        cursor: pointer;
+        user-select: none;
+    }
+
+    .tree .caret::before {
+        content: "\25B6";
+        /* Triangle pointing right */
+        color: black;
+        display: inline-block;
+        margin-right: 6px;
+    }
+
+    .tree .caret-down::before {
+        transform: rotate(90deg);
+        /* Triangle pointing down */
+    }
+
+    .tree .nested {
+        display: none;
+    }
+
+    .tree .active {
+        display: block;
+    }
+</style>
+<!-- Page Header Start -->
+{% comment %} <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+    <div class="container py-5  justify-content-center">
+        <h5 class="display-3 text-white mb-3 animated slideInDown text-center">
+            Recherches des epreuves </h5>
+        <!-- <form action="" method="get">
+            <div class="input-group mb-3">
+                <input placeholder="" type="text" class="justify-content-center form-control"
+                    aria-label="Example text with button addon" aria-describedby="button-addon1">
+                <button class="btn btn-primary" type="button" id="button-addon1"><i class="fa fa-search"></i></button>
+            </div>
+        </form> -->
+        <p class="text-center text-warning">Téléchargez gratuitement les EPREUVES des CONCOURS liés a votre ABONNEMENT.
+        </p>
+    </div>
+</div> {% endcomment %}
+<!-- Page Header End -->
+<div class="container-xxl py-5">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Epreuves</p>
+            <h4 class="text-danger">
+                Vous pouvez uniquement VOIR et TÉLÉCHARGER les ÉPREUVES liées à votre ABONNEMENT !
+            </h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-3 border">
+            {% for school in schools%}
+            <div class="tree">
+                <ul>
+                    <li>
+                        {% if school.cursus.exists %}
+                        <span class="caret"><i class="fa fa-folder"></i> {{school.name}} </span>
+                        <ul class="nested">
+                            {% for cursus in school.cursus.all %}
+                            {% if cursus.niveauxcur.exists %}
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                        class="fa fa-folder"></i>{{cursus.name}}</span>
+
+                                <ul class="nested">
+                                    {% for niveau in cursus.niveauxcur.all %}
+                                    {% if niveau.filierescu.exists %}
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                                class="fa fa-folder"></i> {{niveau.name}}</span>
+                                        <ul class="nested">
+                                            <!-- <ul class="nested"> -->
+                                            {% for filiere in niveau.filierescu.all %}
+                                            <a href="{% url 'school.cursus.niveau.tream.test' filiere.id %}">
+                                                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <i class="fa fa-folder"></i> {{filiere.name}}
+                                                </li>
+                                            </a>
+                                            {%endfor%}
+                                        </ul>
+                                    </li>
+                                    {% else %}
+                                    <a href="{% url 'school.cursus.level.test' niveau.id %}">
+                                        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                                    class="fa fa-folder"></i> {{niveau.name}}</span>
+                                        </li>
+                                    </a>
+                                    {% endif %}
+                                    {% endfor %}
+                                </ul>
+
+                            </li>
+                            {% else %}
+                            {% comment %} 'cursus__epreuvescur', {% endcomment %}
+
+                            <a href="{% url 'school.cursus.test' cursus.id %}">
+                                <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i class="fa fa-folder"></i>
+                                        {{cursus.name}}</span>
+                            </a>
+
+                    </li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+                {% else %}
+                </li>
+                {% comment %} {%endfor%}
+
+                {% endif %} {% endcomment %}
+                <li>
+                    {% comment %} 'niveaux__filierescu__epreuvesstream', {% endcomment %}
+                    {% if school.niveaux.exists %}
+                    <span class="caret"><i class="fa fa-folder"></i> {{school.name}} </span>
+                    <ul class="nested">
+                        {% for niveau in school.niveaux.all %}
+                        {% if niveau.filierescu.exists %}
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i class="fa fa-folder"></i>
+                                {{niveau.name}}</span>
+                            <ul class="nested">
+
+                                {% for filiere in niveau.filierescu.all %}
+                                <a href="{% url 'school.niveau.tream.test' filiere.id %}">
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                                class="fa fa-folder"></i> {{filiere.name}}</span>
+                                    </li>
+                                </a>
+                                {%endfor%}
+                                {% else %}
+                                <a href="{% url 'school.niveau.test' niveau.id%}">
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-folder"></i>
+                                        {{niveau.name}}</li>
+                                </a>
+
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% comment %} shool-epreuve {% endcomment %}
+                    {% else %}
+                    <a href="{% url 'school.test' school.id %}"><span class="caret"><i class="fa fa-folder"></i>
+                            {{school.name}} </span></a>
+                    {% endif %}
+                </li>
+                {%endif%}
+                </ul>
+
+            </div>
+            {% endfor %}
+        </div>
+        <div class="col-md-9 border">
+            <div class="row p-1">
+               
+               {% for test in tests %}
+                <div class="col-md-4">
+                    <div class="card mb-3" style="max-width: 540px;">
+                        <div class="row g-0">
+                            <div class="col-md-4">
+                                <img src="{% static 'front/img/PDF_file.png'%}" class="img-fluid rounded-start"
+                                    alt="...">
+                            </div>
+                            <div class="col-md-8">
+                                <div class="card-body">     
+                                    {% if user.is_authenticated %}
+                                    <h6 class="card-title"><a href="{% url 'download.test' test.id %}">{{test.name}}-{{test.annee}}</a></h6>     
+                                    {%else%}                                   
+                                       <h6 class="card-title">{{test.name}}-{{test.annee}}</h6>                               
+                                       <p class="text-danger"><a href="{% url 'auth.login'%}">Connectez-vous</a> avant de pouvoir telecharger l'epreuve!</p>
+                                    {%endif%} 
+                                    <p class="card-text"><small class="text-body-secondary">il y'a {{test.created_at|timesince}}</small></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                           <img src="{% static 'nodata.png'%}" alt="" height="200px">
+                            <br>
+                           <span class="text-center">Acun epreuve n'a ete trouver</span> 
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var toggler = document.getElementsByClassName("caret");
+        for (var i = 0; i < toggler.length; i++) {
+            toggler[i].addEventListener("click", function () {
+                this.parentElement.querySelector(".nested").classList.toggle("active");
+                this.classList.toggle("caret-down");
+            });
+        }
+    });
+</script>
+{%endblock%}

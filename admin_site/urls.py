@@ -41,6 +41,9 @@ urlpatterns = [
     
     path('messages/', ListMessage.as_view(), name='message.list'),
     path('messages/delete/<int:pk>', DeleteMessage.as_view(), name='message.delete'),
+    path('messages/mark-read/<int:message_id>', mark_message_as_read, name='message.read'),
+    path('messages/reponse/<int:message_id>', message_reponse, name='message.reponse'),
+
 
     path('blog/categorie/',ListCatagory.as_view(), name='category.list'),
     path('blog/categorie/creeate/',CreateCategory.as_view(), name='category.create'),

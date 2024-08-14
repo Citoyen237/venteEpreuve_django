@@ -19,8 +19,17 @@
              {% if current_url == '/abonnement/' %}
                 active
             {% endif %}">Abonnements</a>
-            <a href="{% url 'index.ecole' %}" class="nav-item nav-link">
+            <a href="{% url 'index.ecole' %}" class="nav-item nav-link
+            {% if current_url == '/epreuve/' %}
+                active
+            {% endif %}">
                 Epreuves</a>
+            {% if user.is_authenticated %}
+            <a href="{% url 'abonnement.user' %}" class="nav-item nav-link
+             {% if current_url == '/abonnement/mes-abonnements/' %}
+                active
+            {% endif %}">Mes_abonnements</a>
+            {%endif%}
             <a href="{% url 'cours' %}" class="nav-item nav-link
             {% if current_url == '/cours/' %}
                 active

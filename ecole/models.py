@@ -35,7 +35,7 @@ class Curriculum(models.Model):
 '''niveau'''
 class Level(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, null=True )
-    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE, null=True, blank=True)
+    curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE, null=True, blank=True, related_name='niveauxcur')
     school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True,related_name='niveaux')
     name = models.CharField(max_length=200)
     created_at=models.DateTimeField(auto_now_add=True)
@@ -68,6 +68,7 @@ class Test(models.Model):
     name = models.CharField(max_length=200)
     annee=models.CharField(max_length=200)
     file=models.FileField()
+    school = models.ForeignKey(School, on_delete=models.CASCADE, null=True, blank=True,related_name='schoolep')
     stream = models.ForeignKey(Stream, on_delete=models.CASCADE, null=True, blank=True,related_name='epreuvesstream')
     curriculum = models.ForeignKey(Curriculum, on_delete=models.CASCADE, null=True, blank=True,related_name='epreuvescur')
     level = models.ForeignKey(Level, on_delete=models.CASCADE, null=True, blank=True,related_name='epreuveslevel')

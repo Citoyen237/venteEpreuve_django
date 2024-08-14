@@ -41,21 +41,30 @@
                   <tr>
                     <th>Email</th>
                     <th>Messages</th>
+                    <th>Status</th>
                     <th class="text-center">Action</th>
                   </tr>
                 </thead>
                 <tbody>
                   
-                  {% for message in messages %}
-                    
+                  {% for message in messages %}                
                   <tr>
+                    {% if message.is_read %}
                     <td>{{message.email}}</td>
+                    {% else %} 
+                    <td><a href="{% url 'message.reponse' message.id %}">{{message.email}}</a></td>
+                    {% endif %}   
                     <td>{{message.Message}}</td>
+                    <td>
+                      {% if message.is_read %}
+                      <h4><i class="bi bi-check2-all text-success"></i></h4>
+                      {% else %}                   
+                      <h4><i class="bi bi-check-lg"></i></h4>
+                      {% endif %}   
+                    </td>
                     <td class="text-center"> 
-                      <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#verticalycentered">
-                        <i class="bi bi-pencil-square"></i></a href="">
-                      </button>
-                      <a href="{% url 'message.delete' message.pk %}"  class=' btn btn-danger' name='supprimer'><i class='bi bi-trash-fill'></i></a>
+                      <a href="{% url 'message.reponse' message.id %}"  class=' btn btn-primary'><i class="bi bi-pencil-square"></i></a>
+                      <a href="{% url 'message.delete' message.pk %}"  class=' btn btn-danger'><i class='bi bi-trash-fill'></i></a>
                     </td>
                   </tr>
                   {% empty %}

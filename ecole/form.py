@@ -77,7 +77,7 @@ class StreamForm(forms.ModelForm):
 class TestForm(forms.ModelForm):
     class Meta:
         model=Test
-        fiels=['user','annee','name','stream','file','curriculum','level']
+        fiels=['user','annee','name','stream','file','curriculum','level','school']
         exclude=['created_at','created_at']
         labels = {
             'user':'Utilisateur',
@@ -86,11 +86,13 @@ class TestForm(forms.ModelForm):
             'file':"Epreuve",
             'Anne':"Annee",
             'curriculum':'Cursus',
-            'level':'Niveau'
+            'level':'Niveau',
+            'school':'Ecole'
         }
         widgets ={
             'name':forms.TextInput(attrs={'class':'form-control'}),
             'curriculum':forms.Select(attrs={'class':'form-select'}),
+            'school':forms.Select(attrs={'class':'form-select'}),
             'level':forms.Select(attrs={'class':'form-select'}),
             'annee':forms.TextInput(attrs={'class':'form-control'}),
             'stream':forms.Select(attrs={'class':'form-select'}),

@@ -43,7 +43,7 @@
                     <th>Date de debut</th>
                     <th>Date expiration</th>
                     <th>Status</th>
-                    <th class="text-center">Action</th>
+                    {% comment %} <th class="text-center">Action</th> {% endcomment %}
                   </tr>
                 </thead>
                 <tbody>
@@ -53,12 +53,20 @@
                   <td>{{order.user}},{{order.user.last_name}}</td>
                   <td>{{ item.product.title }}</td>
                   <td>{{ order.created_at }}</td>
-                  <td>ecole{{ item.product.school.name }}</td>
                   <td>{{item.expiration_date}}</td>
-                  <td class="text-center"> 
+                  <td>
+                    
+                    {% if item.is_expired %}
+                    <span class="badge rounded-pill bg-danger">expire</span>
+                    {% else %}
+                    <span class="badge rounded-pill bg-success">en cour</span>
+                    {% endif %}
+                      
+                  </td>
+                  {% comment %} <td class="text-center"> 
                       <a href="" class=' btn btn-primary'><i class='bi bi-pencil-square'></i></a>
                       <a href="" class=' btn btn-danger' name='supprimer'><i class='bi bi-trash-fill'></i></a>
-                  </td>  
+                  </td>   {% endcomment %}
                 </tr>
                  {% endfor %}
                   

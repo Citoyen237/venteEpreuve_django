@@ -2,15 +2,15 @@
 
 
 {% block 'title' %}
- detail abonnement
+detail abonnement
 {% endblock %}
 
 
 {% block content %}
 {% load static %}
 {% load humanize %}
-   <!-- Product section-->
-   <section class="py-5">
+<!-- Product section-->
+<section class="py-5">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="{{pack.image.url}}"></div>
@@ -18,7 +18,7 @@
                 <h4 class="display-5 fw-bolder">{{pack.title}}</h4>
                 <div class="small mb-1">Duree {{pack.duree}} mois</div>
                 <div class="fs-5 mb-5">
-                    <span class="text-decoration-line-through">{{pack.oldPrix|intcomma}}</span>FCFA 
+                    <span class="text-decoration-line-through">{{pack.oldPrix|intcomma}}</span>FCFA
                     <span>{{pack.prix|intcomma}}FCFA</span>
                 </div>
                 <p class="lead">{{pack.description}}</p>
@@ -29,7 +29,7 @@
                         Ajouter au panier
                     </a>
                     {%else%}
-                      <h6><a href="{% url 'auth.login'%}">Connectez-vous</a> avant d’ajouter au panier</a></h6>
+                    <h6><a href="{% url 'auth.login'%}">Connectez-vous</a> avant d’ajouter au panier</a></h6>
                     {%endif%}
                 </div>
             </div>
@@ -37,33 +37,31 @@
     </div>
 </section>
 <!-- Related items section-->
-    <!-- Service Start -->
-    <div class="container-xxl py-5 bg-light">
-        <div class="container">
-            <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
-                <p class="d-inline-block border rounded-pill py-1 px-4">Abonnements similaire</p>
-                <h1>Choisissez un abonnement</h1>
-            </div>
-            <div class="row row-cols-1 row-cols-md-4 g-4">
-                
-                
-                {% for pack in packs %}
-                <div class="col">
-                    <div class="card h-100">
-                        <a href="{% url 'abonnement.detail' pack.id %}"><img src="{{ pack.image.url}}" class="card-img-top" alt="..."></a> 
-                        <div class="card-body">
-                            <h5 class="card-title"><a href="{% url 'abonnement.detail' pack.id %}" class="card-title">{{pack.title }} </a> </h5>
-                            <p class="card-text"><strike> {{pack.oldPrix}}</strike>
-                                <a href="{% url 'abonnement.detail' pack.id %}">{{pack.prix}}</a>
-                            </p>
-                        </div>
+<!-- Service Start -->
+<div class="container-xxl py-5 bg-light">
+    <div class="container">
+        <div class="text-center mx-auto mb-5 wow fadeInUp" data-wow-delay="0.1s" style="max-width: 600px;">
+            <p class="d-inline-block border rounded-pill py-1 px-4">Abonnements similaire</p>
+            <h1>Choisissez un abonnement</h1>
+        </div>
+        <div class="row row-cols-1 row-cols-md-4 g-4">
+            {% for pack in packs %}
+            <div class="col">
+                <div class="card h-100">
+                    <a href="{% url 'abonnement.detail' pack.id %}"><img src="{{ pack.image.url}}" class="card-img-top"
+                            alt="..."></a>
+                    <div class="card-body">
+                        <h5 class="card-title"><a href="{% url 'abonnement.detail' pack.id %}"
+                                class="card-title">{{pack.title }} </a> </h5>
+                        <p class="card-text"><strike> {{pack.oldPrix}}</strike>
+                            <a href="{% url 'abonnement.detail' pack.id %}">{{pack.prix}}</a>
+                        </p>
                     </div>
                 </div>
-                {% endfor %}
-                
-                  
             </div>
+            {% endfor %}
         </div>
     </div>
-    <!-- Service End -->
+</div>
+<!-- Service End -->
 {% endblock %}

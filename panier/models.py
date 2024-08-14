@@ -3,6 +3,7 @@ from auth_app.models import CustomUser as User
 from abonnement.models import Pack as Product
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from django.utils import timezone
 
 class Order(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -17,15 +18,31 @@ class Order(models.Model):
 
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, related_name='items', on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,related_name='product', on_delete=models.CASCADE)
     quantity = models.PositiveIntegerField(default=1)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     
     @property
     def expiration_date(self):
         return self.order.created_at + relativedelta(months=self.product.duree)
-   
+    
+    @property
+    def is_expired(self):
+        return timezone.now().date() > self.expiration_date.date()
+    
+    # @property
+    # def get_expired_products():
+    #     today = timezone.now().date()
+    #     expired_products = []
 
+    #     products = Product.objects.all()
+    #     for product in products:
+    #         expiration_date = product.expiration_date.date()
+    #         if expiration_date <= today:
+    #             expired_products.append(product)
+
+    #     return expired_products
+    
     def __str__(self):
         return f"{self.quantity} of {self.product.title}"
 

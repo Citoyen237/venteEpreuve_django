@@ -49,17 +49,27 @@ epreuves
     <div class="container py-5  justify-content-center">
         <h5 class="display-3 text-white mb-3 animated slideInDown text-center">
             Recherches des epreuves </h5>
-        <form action="" method="get">
+        <!-- <form action="" method="get">
             <div class="input-group mb-3">
                 <input placeholder="" type="text" class="justify-content-center form-control"
                     aria-label="Example text with button addon" aria-describedby="button-addon1">
                 <button class="btn btn-primary" type="button" id="button-addon1"><i class="fa fa-search"></i></button>
             </div>
-        </form>
+        </form> -->
         <p class="text-center text-warning">Téléchargez gratuitement les EPREUVES des CONCOURS liés a votre ABONNEMENT.
         </p>
     </div>
 </div>
+{% if messages %}
+
+{% for message in messages %}
+
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    {{ message }}!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endfor %}
+{% endif %}
 <!-- Page Header End -->
 <!-- Service Start -->
 <div class="container-xxl py-5">
@@ -71,130 +81,109 @@ epreuves
             </h4>
         </div>
     </div>
+
     <div class="row">
         <div class="col-md-4 border">
             {% for school in schools%}
             <div class="tree">
                 <ul>
                     <li>
+                        {% if school.cursus.exists %}
                         <span class="caret"><i class="fa fa-folder"></i> {{school.name}} </span>
-                        
                         <ul class="nested">
-                            {% for curcus in school.cursus.all %}
-                            <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">{{curcus.name}}</span>
+                            {% for cursus in school.cursus.all %}
+                            {% if cursus.niveauxcur.exists %}
+                            <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                        class="fa fa-folder"></i>{{cursus.name}}</span>
+
                                 <ul class="nested">
-                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feuille 1.1</li>
-                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feuille 1.2</li>
-                                </ul>
-                            </li>
-                            <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">Nœud 2</span>
-                                <ul class="nested">
-                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feuille 2.1</li>
-                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feuille 2.2</li>
-                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret">Nœud 3</span>
+                                    {% for niveau in cursus.niveauxcur.all %}
+                                    {% if niveau.filierescu.exists %}
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                                class="fa fa-folder"></i> {{niveau.name}}</span>
                                         <ul class="nested">
-                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feuille 2.1</li>
-                                            <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Feuille 2.2</li>
+                                            <!-- <ul class="nested"> -->
+                                            {% for filiere in niveau.filierescu.all %}
+                                            <a href="{% url 'school.cursus.niveau.tream.test' filiere.id %}">
+                                                <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <i class="fa fa-folder"></i> {{filiere.name}}
+                                                </li>
+                                            </a>
+                                            {%endfor%}
                                         </ul>
                                     </li>
-
+                                    {% else %}
+                                    <a href="{% url 'school.cursus.level.test' niveau.id %}">
+                                        <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                                    class="fa fa-folder"></i> {{niveau.name}}</span>
+                                        </li>
+                                    </a>
+                                    {% endif %}
+                                    {% endfor %}
                                 </ul>
+
                             </li>
-                            {%endfor%}
-                        </ul>
-                       
+                            {% else %}
+                            {% comment %} 'cursus__epreuvescur', {% endcomment %}
+
+                            <a href="{% url 'school.cursus.test' cursus.id %}">
+                                <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i class="fa fa-folder"></i>
+                                        {{cursus.name}}</span>
+                            </a>
+
                     </li>
+                    {% endif %}
+                    {% endfor %}
                 </ul>
+                {% else %}
+                </li>
+                {% comment %} {%endfor%}
+
+                {% endif %} {% endcomment %}
+                <li>
+                    {% comment %} 'niveaux__filierescu__epreuvesstream', {% endcomment %}
+                    {% if school.niveaux.exists %}
+                    <span class="caret"><i class="fa fa-folder"></i> {{school.name}} </span>
+                    <ul class="nested">
+                        {% for niveau in school.niveaux.all %}
+                        {% if niveau.filierescu.exists %}
+                        <li>&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i class="fa fa-folder"></i>
+                                {{niveau.name}}</span>
+                            <ul class="nested">
+
+                                {% for filiere in niveau.filierescu.all %}
+                                <a href="{% url 'school.niveau.tream.test' filiere.id %}">
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="caret"><i
+                                                class="fa fa-folder"></i> {{filiere.name}}</span>
+                                    </li>
+                                </a>
+                                {%endfor%}
+                                {% else %}
+                                <a href="{% url 'school.niveau.test' niveau.id%}">
+                                    <li>&nbsp;&nbsp;&nbsp;&nbsp;<i class="fa fa-folder"></i>
+                                        {{niveau.name}}</li>
+                                </a>
+
+                                {% endif %}
+                            </ul>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% comment %} shool-epreuve {% endcomment %}
+                    {% else %}
+                    <a href="{% url 'school.test' school.id %}"><span class="caret"><i class="fa fa-folder"></i>
+                            {{school.name}} </span></a>
+                    {% endif %}
+                </li>
+                {%endif%}
+                </ul>
+
             </div>
             {% endfor %}
         </div>
-        <div class="col-md-8 border">
-            <div class="row p-1">
-            
-                <div class="col-md-3">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{% static 'front/img/PDF_file.png'%}" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                            ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{% static 'front/img/PDF_file.png'%}" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                            ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="col-md-3">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{% static 'front/img/PDF_file.png'%}" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                            ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{% static 'front/img/PDF_file.png'%}" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                            ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="card mb-3" style="max-width: 540px;">
-                        <div class="row g-0">
-                            <div class="col-md-4">
-                                <img src="{% static 'front/img/PDF_file.png'%}" class="img-fluid rounded-start" alt="...">
-                            </div>
-                            <div class="col-md-8">
-                                <div class="card-body">
-                                    <h5 class="card-title">Card title</h5>
-                                    <p class="card-text"><small class="text-body-secondary">Last updated 3 mins
-                                            ago</small></p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="col-md-8 border">
     </div>
+</div>
 </div>
 <script>
     document.addEventListener('DOMContentLoaded', function () {

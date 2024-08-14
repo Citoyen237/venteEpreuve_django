@@ -26,7 +26,9 @@ SECRET_KEY = 'django-insecure-3kq-l--l+1nqdr_u*i(t^5$i-m=@hqi^6ajyl9jl%^khm9nn#u
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    # 'f00a-129-0-76-218.ngrok-free.app'
+]
 
 # LOGIN_REDIRECT_URL = 'index' 
 
@@ -60,7 +62,7 @@ INSTALLED_APPS = [
     'auth_app',
     'front',
     'panier',
-    # 'tinymce',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -71,6 +73,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
+
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "https://f00a-129-0-76-218.ngrok-free.app",
 ]
 
 ROOT_URLCONF = 'venteEpreuve.urls'
@@ -88,6 +97,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'panier.context_processors.cart_item_count',
                 'blog.context_processors.articles_context_processor',
+                'admin_site.context_processors.get_message_unread',
+                # 'panier.context_processors.user_orders',
             ],
         },
     },
